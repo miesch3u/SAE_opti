@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 public class Mainq1 {
 
@@ -111,6 +112,26 @@ public class Mainq1 {
         int[] rgb = rgbToInt(img.getRGB(i, j));
         int gray = (rgb[0] + rgb[1] + rgb[2]) / 3;
         res.setRGB(i, j, (gray << 16) + (gray << 8) + gray);
+      }
+    }
+    return res;
+  }
+
+  public static BufferedImage replaceByClosestColorInt(BufferedImage img, List<int[]> colors) {
+    BufferedImage res = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+    for (int i = 0; i < img.getWidth(); i++) {
+      for (int j = 0; j < img.getHeight(); j++) {
+        int [] rgb = rgbToInt(img.getRGB(i, j));
+        int[] couleur = colors.get(0);
+        Color closest = new Color(couleur[0], couleur[1], couleur[2]);
+        for(int[] color : colors) {
+          Color c = new Color(color[0], color[1], color[2]);
+          if (Math.abs(c.getRed() - rgb[0]) + Math.abs(c.getGreen() - rgb[1]) + Math.abs(c.getBlue() - rgb[2]) <
+                  Math.abs(closest.getRed() - rgb[0]) + Math.abs(closest.getGreen() - rgb[1]) + Math.abs(closest.getBlue() - rgb[2])) {
+            closest = c;
+          }
+        }
+        res.setRGB(i, j, closest.getRGB());
       }
     }
     return res;
