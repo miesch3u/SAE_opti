@@ -73,7 +73,7 @@ public class Mainq1 {
     return res;
   }
 
-  private static BufferedImage storeComponent(BufferedImage img, int component) {
+  public static BufferedImage storeComponent(BufferedImage img, int component) {
     BufferedImage res = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
     for (int i = 0; i < img.getWidth(); i++) {
       for (int j = 0; j < img.getHeight(); j++) {
@@ -86,7 +86,7 @@ public class Mainq1 {
     return res;
   }
 
-  private static BufferedImage replaceByClosestColor(BufferedImage img, Color[] colors) {
+  public static BufferedImage replaceByClosestColor(BufferedImage img, Color[] colors) {
     BufferedImage res = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
     for (int i = 0; i < img.getWidth(); i++) {
       for (int j = 0; j < img.getHeight(); j++) {
