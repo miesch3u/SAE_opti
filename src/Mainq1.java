@@ -103,4 +103,16 @@ public class Mainq1 {
     }
     return res;
   }
+
+  public static BufferedImage blackAndWhite(BufferedImage img) {
+    BufferedImage res = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+    for (int i = 0; i < img.getWidth(); i++) {
+      for (int j = 0; j < img.getHeight(); j++) {
+        int[] rgb = rgbToInt(img.getRGB(i, j));
+        int gray = (rgb[0] + rgb[1] + rgb[2]) / 3;
+        res.setRGB(i, j, (gray << 16) + (gray << 8) + gray);
+      }
+    }
+    return res;
+  }
 }
