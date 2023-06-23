@@ -1,0 +1,33 @@
+entrées : n>0 : nombre de couleurs
+entrées : t>0 : tolerance
+entrées : D{di} : données
+resultat : C{ci} : couleurs
+
+*/ parcours des données et affectation des couleurs
+pour i de 1 à n faire
+    pour j de 1 a m faire
+        si distance(D{i}, C2{j}.donnée < tolerance alors
+            C2{j}.nombre = C2{j}.nombre + 1
+        sinon
+            C2.ajouter(D{i})
+            C2{C.taille}.nombre = 1
+        fin si
+    fin pour
+fin pour
+
+    */ tri des couleurs par ordre décroissant
+    pour i de 1 à C2.taille faire
+        pour j de i+1 à C2.taille faire
+            si C{i}.donnée < C2{j}.donnée alors
+                temp = C2{i}
+                C2{i} = C2{j}
+                C2{j} = temp
+            fin si
+        fin pour
+    fin pour
+
+        */ affectation des couleurs
+        pour i de 1 à n faire
+            C{n}.couleur = C2{n}.couleur
+        fin pour
+rendre C
