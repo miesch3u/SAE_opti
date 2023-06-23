@@ -7,8 +7,8 @@ public class MainTests {
   public static void main(String[] args) throws IOException {
     String pathName = "./images_diverses_small/animaux/ours.png";
     String outFolder = "./imgSorties/";
-    int[] couleurs = {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192};
-    int[] tolerances = {110, 75, 70, 56, 43, 30, 20, 12, 8, 6, 5, 4, 3};
+    int[] couleurs = {2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096};
+    int[] tolerances = {110, 75, 70, 56, 43, 30, 20, 12, 8, 6, 5, 4};
     BufferedImage img = ImageIO.read(new java.io.File(pathName));
     for (int i = 0; i < couleurs.length; i++) {
       System.out.println("calcul de l'image " + couleurs[i] + " couleurs");
