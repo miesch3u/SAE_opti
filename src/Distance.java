@@ -26,8 +26,8 @@ public class Distance {
     long res = 0;
     for (int i = 0; i< img1.getHeight(); i++){
       for (int j = 0; j< img1.getWidth(); j++){
-        int[] rgb1 = Mainq1.rgbToInt(img1.getRGB(i, j));
-        int[] rgb2 = Mainq1.rgbToInt(img2.getRGB(i, j));
+        int[] rgb1 = Mainq1.rgbToInt(img1.getRGB(j, i));
+        int[] rgb2 = Mainq1.rgbToInt(img2.getRGB(j, i));
         res += Math.pow(rgb1[0] - rgb2[0],2) + Math.pow(rgb1[1] - rgb2[1],2) + Math.pow(rgb1[2] - rgb2[2],2);
       }
     }
