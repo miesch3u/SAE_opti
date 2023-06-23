@@ -90,11 +90,15 @@ public class MainQ1Sae {
   // correspond a la distance maximale entre deux couleurs pour qu'elles soient considérées comme proches
   // le reduction de cette valeur entraine une augmentation du temps de calcul, mais est nécessaire pour avoir une image de meilleure qualité
   public static BufferedImage calculerImage(BufferedImage img, int nbCouleur, double tolerance) {
+    return (Mainq1.replaceByClosestColor(img, calculerClusters(img, nbCouleur, tolerance)));
+  }
+
+  public static Color[] calculerClusters(BufferedImage img, int nbCouleur, double tolerance) {
     List<Color> colors = new ArrayList<>();
     List<Integer> counts = new ArrayList<>();
     for (int i = 0; i < img.getHeight(); i++) {
       for (int j = 0; j < img.getWidth(); j++) {
-        Color color = new Color(img.getRGB(i, j));
+        Color color = new Color(img.getRGB(j, i));
         Color closeColor = getCloseColor(colors, color, tolerance);
         if (closeColor != null) {
           counts.set(colors.indexOf(closeColor), counts.get(colors.indexOf(closeColor)) + 1);
@@ -104,20 +108,21 @@ public class MainQ1Sae {
         }
       }
     }
-    return (Mainq1.replaceByClosestColor(img, getXMoreRepresented(nbCouleur, colors, counts)));
+    return (getXMoreRepresented(nbCouleur, colors, counts));
   }
 
   public static void main(String[] args) throws IOException {
-    String path = args.length > 0 ? args[0] : "./images_etudiants/copie.png";
-    String out = args.length > 1 ? args[1] : "test.jpg";
-    int nbCoul = args.length > 2 ? Integer.parseInt(args[2]) : 31;
-    int tolerance = args.length > 3 ? Integer.parseInt(args[3]) : 38;
+    String path = args.length > 0 ? args[0] : "./images_diverses/ours.png";
+    String out = args.length > 1 ? args[1] : "./img_sortie/ours.png";
+    int nbCoul = args.length > 2 ? Integer.parseInt(args[2]) : 32;
+    int tolerance = args.length > 3 ? Integer.parseInt(args[3]) : 37;
     long start = System.currentTimeMillis();
     BufferedImage img1 = ImageIO.read(new File(path));
     long inter1 = System.currentTimeMillis();
     BufferedImage img = calculerImage(img1, nbCoul, tolerance);
     long inter = System.currentTimeMillis();
-    ImageIO.write(img, out.substring(out.length()-3), new File(out));
+    System.out.println(out.substring(out.lastIndexOf(".")));
+    ImageIO.write(img, out.substring(out.lastIndexOf(".")+1), new File(out));
     long end = System.currentTimeMillis();
     System.out.println("temps de lecture: " + (inter1 - start));
     System.out.println("temps de calcul: " + (inter - inter1));

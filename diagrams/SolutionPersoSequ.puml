@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+MainQ1Sae -> MainQ1Sae: calculerImage("ours.png", "ours2.png",6,105)
+loop img.width*img.height times
+    MainQ1Sae -> MainQ1Sae: getCloseColor(List<Color>,color[width][height] ,105)
+    return "color"
+end
+MainQ1Sae -> MainQ1Sae: getXmoreRepresented(List<Color>,List<Integer>,6)
+return "Color[6]"
+MainQ1Sae -> MainQ1: replaceByClosestColor(img, Color[6])
+return "img"
+MainQ1Sae --> MainQ1Sae: img
+@enduml
