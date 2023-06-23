@@ -67,6 +67,7 @@ public class MainQ1Sae {
 
   // renvoie la liste des X couleurs les plus utilisées dans l'image
   public static Color[] getXMoreRepresented(int x, List<Color> colors, List<Integer> counts) {
+    if (x >= colors.size()) return colors.toArray(new Color[0]);
     Color[] res = new Color[x];
     for (int i = 0; i < x; i++) {
       int max = 0;
@@ -107,14 +108,19 @@ public class MainQ1Sae {
   }
 
   public static void main(String[] args) throws IOException {
-    int nbCoul = args.length > 0 ? Integer.parseInt(args[0]) : 31;
-    int tolerance = args.length > 1 ? Integer.parseInt(args[1]) : 37;
+    String path = args.length > 0 ? args[0] : "./images_etudiants/copie.png";
+    String out = args.length > 1 ? args[1] : "test.jpg";
+    int nbCoul = args.length > 2 ? Integer.parseInt(args[2]) : 31;
+    int tolerance = args.length > 3 ? Integer.parseInt(args[3]) : 38;
     long start = System.currentTimeMillis();
-    BufferedImage img = calculerImage(ImageIO.read(new File("./images_etudiants/copie.png")), nbCoul, tolerance);
+    BufferedImage img1 = ImageIO.read(new File(path));
+    long inter1 = System.currentTimeMillis();
+    BufferedImage img = calculerImage(img1, nbCoul, tolerance);
     long inter = System.currentTimeMillis();
-    ImageIO.write(img, "jpg", new File("test.jpg"));
+    ImageIO.write(img, out.substring(out.length()-3), new File(out));
     long end = System.currentTimeMillis();
-    System.out.println("temps de calcul: " + (inter - start));
+    System.out.println("temps de lecture: " + (inter1 - start));
+    System.out.println("temps de calcul: " + (inter - inter1));
     System.out.println("temps d'ecriture: " + (end - inter));
     System.out.println("temps total: " + (end - start));
   }
