@@ -47,6 +47,8 @@ public class MainQ1Sae {
     return x;
   }*/
 
+  //la methode getCloseColor est une methode qui permet de trouver une couleur proche d'une autre couleur parmis
+  // celles déjà utilisées dans l'image et concervées. si aucune couleur n'est proche, elle renvoie null
   public static Color getCloseColor(List<Color> colors, Color color, double maxDistance) {
     Color closestColor = null;
     for (Color color1 : colors) {
@@ -58,10 +60,12 @@ public class MainQ1Sae {
     return closestColor;
   }
 
+  // renvoie la distance entre deux couleurs
   private static double colorDistance(Color color, Color color1) {
     return Math.sqrt(Math.pow(color.getRed() - color1.getRed(), 2) + Math.pow(color.getGreen() - color1.getGreen(), 2) + Math.pow(color.getBlue() - color1.getBlue(), 2));
   }
 
+  // renvoie la liste des X couleurs les plus utilisées dans l'image
   public static Color[] getXMoreRepresented(int x, List<Color> colors, List<Integer> counts) {
     Color[] res = new Color[x];
     for (int i = 0; i < x; i++) {
@@ -80,7 +84,11 @@ public class MainQ1Sae {
     return res;
   }
 
-  public static BufferedImage calculerImage(BufferedImage img, int nbCouleur, double tolerance){
+  // calcule l'image avec les X couleurs les plus utilisées dans l'image
+  // prend en parametre l'image, le nombre de couleurs et la tolerance
+  // correspond a la distance maximale entre deux couleurs pour qu'elles soient considérées comme proches
+  // le reduction de cette valeur entraine une augmentation du temps de calcul, mais est nécessaire pour avoir une image de meilleure qualité
+  public static BufferedImage calculerImage(BufferedImage img, int nbCouleur, double tolerance) {
     List<Color> colors = new ArrayList<>();
     List<Integer> counts = new ArrayList<>();
     for (int i = 0; i < img.getHeight(); i++) {
@@ -99,10 +107,12 @@ public class MainQ1Sae {
   }
 
   public static void main(String[] args) throws IOException {
+    int nbCoul = args.length > 0 ? Integer.parseInt(args[0]) : 31;
+    int tolerance = args.length > 1 ? Integer.parseInt(args[1]) : 37;
     long start = System.currentTimeMillis();
-    BufferedImage img = calculerImage(ImageIO.read(new File("./images_etudiants/copie.png")),31, 37);
+    BufferedImage img = calculerImage(ImageIO.read(new File("./images_etudiants/copie.png")), nbCoul, tolerance);
     long inter = System.currentTimeMillis();
-    ImageIO.write(img, "png", new File("test.png"));
+    ImageIO.write(img, "jpg", new File("test.jpg"));
     long end = System.currentTimeMillis();
     System.out.println("temps de calcul: " + (inter - start));
     System.out.println("temps d'ecriture: " + (end - inter));
