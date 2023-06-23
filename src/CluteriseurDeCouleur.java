@@ -19,9 +19,6 @@ public class CluteriseurDeCouleur {
 
     public CluteriseurDeCouleur(int nbCouleurs, String path) {
         try {
-            if (path.isEmpty()){
-                path = "./images_etudiants/originale.jpg";
-            }
             image = ImageIO.read(new File(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -127,11 +124,10 @@ public class CluteriseurDeCouleur {
         return cout;
     }
 
-    public static void main(String[] args) {
+    public static BufferedImage calculerImage(String[] args){
         long startTime = System.currentTimeMillis();
-        String path = args.length == 0 ? "./images_diverses_small/animaux/ours.png" : args[0];
-        int nbCouleurs = args.length <= 1 ? 32 : Integer.parseInt(args[2]);
-        String path2 = args.length <= 2 ? "./imgCompressees/copie.jpg" : args[1];
+        String path = args.length == 0 ? "./images_diverses_small/animaux/poulpe.png" : args[0];
+        int nbCouleurs = args.length <= 1 ? 64 : Integer.parseInt(args[2]);
         CluteriseurDeCouleur cluteriseurDeCouleur = new CluteriseurDeCouleur(nbCouleurs,path);
         boolean convergence = false;
         BufferedImage img = cluteriseurDeCouleur.image;
@@ -141,7 +137,6 @@ public class CluteriseurDeCouleur {
             cluteriseurDeCouleur.setClusters();
             BufferedImage newImg = Mainq1.replaceByClosestColorInt(cluteriseurDeCouleur.image,cluteriseurDeCouleur.centroids);
             long newCout = cluteriseurDeCouleur.getCoutMoyensDesClusters();
-            //long newCout = Distance.distance(cluteriseurDeCouleur.image,newImg)*arrondi/arrondi;
             if (cout <= newCout){
                 convergence = true;
             }
@@ -150,6 +145,12 @@ public class CluteriseurDeCouleur {
             img = newImg;
         }
         System.out.println("Temps d'execution : " + (System.currentTimeMillis() - startTime) + "ms");
+        return img;
+    }
+
+    public static void main(String[] args) {
+        String path2 = args.length <= 2 ? "./imgCompressees/copie.jpg" : args[1];
+        BufferedImage img = calculerImage(args);
         try {
             ImageIO.write(img, "jpg", new File(path2));
         } catch (IOException e) {
