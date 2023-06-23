@@ -1,0 +1,16 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+activate Clusteriseur
+Clusteriseur -> MainQ1SAE : calculerClusters()
+activate MainQ1SAE
+MainQ1SAE --> Clusteriseur : Color[]
+deactivate MainQ1SAE
+Clusteriseur --> Mainq1 : replaceByClosestColorInt(image,couleurs)
+activate Mainq1
+Mainq1 --> Clusteriseur : image
+deactivate Mainq1
+
+@enduml

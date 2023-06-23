@@ -13,9 +13,9 @@ public class CluteriseurDeCouleur {
     private List<int[]> couleurs;
     private List<int[]> centroids;
     public HashMap<int[],List<int[]>> clusters;
-    public List<int[]> couleursPossibles;
 
-    public void debutDuConstructeur(String path){
+    //partie commune des deux constructeurs
+    private void debutDuConstructeur(String path){
         try {
             image = ImageIO.read(new File(path));
         } catch (IOException e) {
@@ -24,11 +24,12 @@ public class CluteriseurDeCouleur {
         centroids = new ArrayList<>();
         couleurs = new ArrayList<>();
         clusters = new HashMap<>();
-        couleursPossibles = new ArrayList<>();
     }
 
+    //constructeur par défaut
     public CluteriseurDeCouleur(int nbCouleurs, String path) {
         debutDuConstructeur(path);
+        //on choisit des centroids au hasard
         for (int i = 0; i < nbCouleurs; i++) {
             int[] centroid = new int[3];
             Random rand = new Random();
@@ -41,6 +42,7 @@ public class CluteriseurDeCouleur {
         setClusters();
     }
 
+    //constructeur avec centroids donnés
     public CluteriseurDeCouleur(String path, List<int[]> centroids) {
         debutDuConstructeur(path);
         this.centroids = centroids;
@@ -48,20 +50,21 @@ public class CluteriseurDeCouleur {
         setClusters();
     }
 
-    public void setCouleursPossiblesEtCouleurs() {
+    //méthode qui enregistre les couleurs de l'image
+    private void setCouleursPossiblesEtCouleurs() {
         for (int i = 0; i<image.getWidth(); i++){
             for (int j = 0; j<image.getHeight(); j++){
                 int r = (image.getRGB(i, j) >> 16) & 0xFF;
                 int g = (image.getRGB(i, j) >> 8) & 0xFF;
                 int b = image.getRGB(i, j) & 0xFF;
                 int[] rgb = {r, g, b};
-                couleursPossibles.add(rgb);
+                //on ajoute la couleur à la liste des couleurs possibles si elle n'y est pas déjà
                 couleurs.add(rgb);
             }
         }
     }
 
-    public int indiceCentroidePlusProche(int r,int g,int b){
+    private int indiceCentroidePlusProche(int r,int g,int b){
         int indice = 0;
         int distance = Integer.MAX_VALUE;
         for (int i = 0; i < centroids.size(); i++) {
@@ -75,7 +78,7 @@ public class CluteriseurDeCouleur {
         return indice;
     }
 
-    public void setClusters(){
+    private void setClusters(){
         for (int i = 0; i < centroids.size(); i++) {
             clusters.put(centroids.get(i),new ArrayList<>());
         }
@@ -86,7 +89,7 @@ public class CluteriseurDeCouleur {
         }
     }
 
-    public void setCentroids(){
+    private void setCentroids(){
         int[] centroid;
         Random rand = new Random();
         for (int i = 0; i < centroids.size(); i++) {
@@ -103,8 +106,8 @@ public class CluteriseurDeCouleur {
                 rgb[2] /= clusters.get(centroid).size();
                 centroids.set(i,rgb);
             }else {
-                int limit = couleursPossibles.size();
-                centroid = couleursPossibles.get(rand.nextInt(limit));
+                int limit = couleurs.size();
+                centroid = couleurs.get(rand.nextInt(limit));
                 centroids.set(i,centroid);
             }
         }
@@ -166,6 +169,7 @@ public class CluteriseurDeCouleur {
             img = newImg;
         }
         System.out.println("Temps d'execution : " + (System.currentTimeMillis() - startTime) + "ms");
+        //on ecrit l'image dans le fichier
         if(!path.isEmpty()){
             try {
                 ImageIO.write(img, "jpg", new File(path2));
@@ -175,7 +179,6 @@ public class CluteriseurDeCouleur {
         }
         return img;
     }
-
     public static void main(String[] args) {
         calculerImage(args);
     }
