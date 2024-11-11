@@ -172,7 +172,9 @@ public class CluteriseurDeCouleur {
         //on ecrit l'image dans le fichier
         if(!path.isEmpty()){
             try {
-                ImageIO.write(img, "jpg", new File(path2));
+                System.out.println(path);
+                System.out.println(path2);
+                ImageIO.write(img, "png", new File(path2));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
